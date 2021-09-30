@@ -7,10 +7,10 @@ module.exports = async function(Client, guildId) {
             name:"ping",
             description: 'replies with pong'
         },*/
-        {
+        /*{
             name:"Say hello",
             type: 2
-        },
+        },*/
         {
             name:"Report User",
             type: 2
