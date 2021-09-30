@@ -1,3 +1,4 @@
 Update ID - Update
 001 - The report user app when clicking the user reports correctly
 002 - The report user app now doesnt crash on activation
+003 - The report message and report author apps now function and send the correct message
