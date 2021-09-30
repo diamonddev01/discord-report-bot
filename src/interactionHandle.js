@@ -29,6 +29,10 @@ module.exports = class interactionHandler {
     async contextMenu(Client, interaction) {
         //Context menu handle
         if(interaction.commandName == "Report User"){
+            if(interaction.targetId == interaction.user.id) {
+                interaction.reply({content:`Im not going to allow you to report yourself, thats pretty silly`, ephemeral:true});
+                return;
+            }
             const realTarget = await interaction.guild.members.fetch(interaction.targetId).catch((e)=>{
                 console.log(e);
                 interaction.reply({content:`Failed to report user due to: Internal error (#5543). You can use the code IC#554 to report this issue`, ephemeral: true});
@@ -47,10 +51,41 @@ module.exports = class interactionHandler {
                 return;
             })
             if(!targetMessage) {
-                interaction.reply({content:`Failed to report user due to: Internal error (#5675). You can use the code IC#655 to report this issue`, ephemeral: true});
+                interaction.reply({content:`Failed to report message due to: Internal error (#5675). You can use the code IC#655 to report this issue`, ephemeral: true});
                 return;
             }
-
+            if(targetMessage.author.id == interaction.user.id) {
+                interaction.reply({content:`Im not going to allow you to report your message, thats pretty silly`, ephemeral:true});
+                return;
+            }
+            var attachments = undefined;
+            if(targetMessage.attachments.first()) {
+                attachments = targetMessage.attachments.map(a => a.url);
+            }
+            if(attachments) this.reportsChannel.send({content:`\`${interaction.user.username}\` reported \`${targetMessage.author.username}\`'s message (${targetMessage.url})\nContent: \`${targetMessage.content}\`\n${attachments.join(' ')}`});
+            else this.reportsChannel.send({content:`\`${interaction.user.username}\` reported \`${targetMessage.author.username}\`'s message (${targetMessage.url})\nContent: \`${targetMessage.content}\``});
+            interaction.reply({content:`I have reported \`${targetMessage.author.username}\`'s message to the moderators of \`${interaction.guild.name}\`, thanks for reporting`, ephemeral:true});
+        } else if(interaction.commandName == "Report Author") {
+            const targetAuthorMessage = await interaction.channel.messages.fetch(interaction.targetId).catch((e)=>{
+                console.log(e);
+                interaction.reply({content:`Failed to report message due to: Internal error (#6646). You can use the code IC#877 to report this issue`, ephemeral: true});
+                return;
+            })
+            if(!targetAuthorMessage) {
+                interaction.reply({content:`Failed to report message due to: Internal error (#6647). You can use the code IC#878 to report this issue`, ephemeral: true});
+                return;
+            }
+            const targetUser = targetAuthorMessage.author;
+            if(!targetUser) {
+                interaction.reply({content:`Failed to report message due to: Internal error (#6647). You can use the code IC#878B to report this issue`, ephemeral: true});
+                return;
+            }
+            if(targetUser.id == interaction.user.id) {
+                interaction.reply({content:`Im not going to allow you to report yourself, thats pretty silly`, ephemeral:true});
+                return;
+            }
+            this.reportsChannel.send({content:`\`${interaction.user.username}\` reported \`${targetUser.username}\``});
+            interaction.reply({content:`I have reported \`${targetUser.username}\` to the moderators of \`${interaction.guild.name}\`, thanks for reporting`, ephemeral: true})
         } else {
             interaction.reply({content:`Coming soon to ${this.client.user.username}`});
         }
