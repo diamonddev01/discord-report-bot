@@ -39,8 +39,18 @@ module.exports = class interactionHandler {
                 return;
             }
             interaction.reply({content:`I have reported \`${realTarget.user.username}\` to the moderators of \`${interaction.guild.name}\`, thanks for reporting`, ephemeral: true});
-            const testHandle = new interactionHandler(Client);
-            testHandle.reportSend(interaction);
+            this.reportsChannel.send({content:`\`${interaction.user.username}\` reported \`${realTarget.user.username}\``});
+        } else if(interaction.commandName == "Report Message") {
+            const targetMessage = await interaction.channel.messages.fetch(interaction.targetId).catch((e)=>{
+                console.log(e);
+                interaction.reply({content:`Failed to report message due to: Internal error (#5674). You can use the code IC#654 to report this issue`, ephemeral: true});
+                return;
+            })
+            if(!targetMessage) {
+                interaction.reply({content:`Failed to report user due to: Internal error (#5675). You can use the code IC#655 to report this issue`, ephemeral: true});
+                return;
+            }
+
         } else {
             interaction.reply({content:`Coming soon to ${this.client.user.username}`});
         }
