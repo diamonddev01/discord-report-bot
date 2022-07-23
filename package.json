@@ -1,0 +1,23 @@
+{
+  "name": "discord-report-bot",
+  "version": "2.0.1",
+  "description": "A reports bot for your discord server!",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm run",
+    "run": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diamonddev01/discord-report-bot.git"
+  },
+  "author": "DiamondDev01",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diamonddev01/discord-report-bot/issues"
+  },
+  "homepage": "https://github.com/diamonddev01/discord-report-bot#readme",
+  "dependencies": {
+    "discord.js": "^14.0.3"
+  }
+}
