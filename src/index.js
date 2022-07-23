@@ -1,10 +1,13 @@
-const Discord = require('discord.js');
-const Client = new Discord.Client({
-    intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES]
+const {Client} = require('discord.js');
+
+const Client = new Client({
+    intents: ['GUILDS', 'GUILD_MESSAGES']
 })
+
 const CCM = require('./createContextMenu');
 const config = require('./configs');
-interactionsHandler = undefined;
+
+let interactionsHandler = undefined;
 const interactionsHandlerFile = require('./interactionHandle');
 
 Client.on('ready', () => {
@@ -16,7 +19,7 @@ Client.on('ready', () => {
 })
 
 Client.on('interactionCreate', async (interaction) => {
-    interactionsHandler.interaction(interaction);
+    interactionsHandler?.interaction(interaction);
 })
 
 Client.login(config.botToken);
