@@ -4,7 +4,7 @@
   "description": "A reports bot for your discord server!",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm run",
+    "test": "npm run run",
     "run": "node ."
   },
   "repository": {

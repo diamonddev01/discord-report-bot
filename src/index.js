@@ -1,7 +1,7 @@
-const {Client} = require('discord.js');
+const {Client, GatewayIntentBits} = require('discord.js');
 
-const Client = new Client({
-    intents: ['GUILDS', 'GUILD_MESSAGES']
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
 })
 
 const CCM = require('./createContextMenu');
@@ -10,16 +10,16 @@ const config = require('./configs');
 let interactionsHandler = undefined;
 const interactionsHandlerFile = require('./interactionHandle');
 
-Client.on('ready', () => {
+client.on('ready', () => {
     for(i in config.activeGuilds) {
-        CCM(Client, config.activeGuilds[i]);
+        CCM(client, config.activeGuilds[i]);
     }
     console.log('ready')
-    interactionsHandler = new interactionsHandlerFile(Client);
+    interactionsHandler = new interactionsHandlerFile(client);
 })
 
-Client.on('interactionCreate', async (interaction) => {
+client.on('interactionCreate', async (interaction) => {
     interactionsHandler?.interaction(interaction);
 })
 
-Client.login(config.botToken);
+client.login(config.botToken);
